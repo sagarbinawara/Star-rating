@@ -96,7 +96,7 @@ img {
   width: 33%;
   background: black;
   color: white;
-  position: absolute;
+  position: fixed;
   top: 30%;
   margin: 0px auto;
   left: 35%;

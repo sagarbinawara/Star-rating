@@ -5,6 +5,8 @@ function App() {
   const [movieData, getMovieData] = useState([]);
   const [searchTerm, updatedTerm] = useState('')
   const [showPop, updatePopup] = useState(false)
+  const [starData, updateStarData] = useState([])
+  const [emptyStar, clickedStarRate] = useState(0)
   useEffect(() => {
     fetch('https://www.omdbapi.com/?s=time&y=2024&apikey=4a41b347').then((res) => {
 
@@ -30,26 +32,47 @@ function App() {
     updatedTerm(e?.target?.value)
   }
 
-  const rateFunction = (e) => {
-    updatePopup(e)
+  const rateFunction = (item) => {
+    updatePopup(false)
+    clickedStar(0)
+    let ob = {
+      ...item, emptyStar
+    }
+    updateStarData([...emptyStar, ob])
+  }
+
+  const showPopup = (item) => {
+    updatePopup(item)
+  }
+
+
+  const clickedStar = (item) => {
+    clickedStarRate(item)
   }
 
   const starFunction = () => {
     let arr = []
-    for (let i = 0; i <= 10; i++) {
-      arr.push(<img src={'./public/star.svg'} />)
+    for (let i = 1; i <= 10; i++) {
+      arr.push(<img src={'./public/star.svg'} onClick={() => {
+        clickedStar(i)
+      }} />)
 
    
     }
     return arr
   }
+
+
+  console.log('starData',starData)
+
+  
   return (
     <> 
       {
         showPop && (
           <div className='popup'>
             {
-               showPop
+               showPop?.Title
             }
             <div className='starrow'>
             {
@@ -93,7 +116,7 @@ function App() {
                     }
                   </h4>
                     <img src={'./public/star.svg'} onClick={() => {
-                       rateFunction(item?.Title)
+                       showPopup(item)
                     }}/>
                     </div>
                   <div>
